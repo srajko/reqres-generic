@@ -1,6 +1,6 @@
 {
   "name": "reqres-generic",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Generic implementation for request-response communication",
   "main": "lib\\index.js",
   "scripts": {
