@@ -26,8 +26,14 @@ function send(subscriptions, message, data) {
 function channelConfig(receiveSubscriptions, sendSubscriptions) {
   return {
     send: (message, data) => send(sendSubscriptions, message, data),
-    subscribe: (message, callback) => addSubscription(receiveSubscriptions, message, callback),
-    unsubscribe: (message, callback) => removeSubscription(receiveSubscriptions, message, callback)
+    subscribe: (message, callback) => {
+      addSubscription(receiveSubscriptions, message, callback);
+      return {
+        unsubscribe() {
+          removeSubscription(receiveSubscriptions, message, callback);
+        }
+      };
+    }
   };
 }
 

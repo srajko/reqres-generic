@@ -1,22 +1,19 @@
 import uuid from 'uuid';
 
 class Client {
-  constructor({ send, subscribe, unsubscribe }) {
+  constructor({ send, subscribe }) {
     this._send = send;
     this._subscribe = subscribe;
-    this._unsubscribe = unsubscribe;
   }
 
   request(message, data) {
     const id = uuid.v4();
 
     return new Promise((resolve) => {
-      const handler = (response) => {
-        this._unsubscribe(id, handler);
+      const { unsubscribe } = this._subscribe(id, (response) => {
+        unsubscribe();
         resolve(response);
-      };
-
-      this._subscribe(id, handler);
+      });
       this._send(message, { id, data });
     });
   }
